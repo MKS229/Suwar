@@ -10,7 +10,7 @@ DB_CONFIG = {
     "host": os.environ.get("SUWAR_DB_HOST", "localhost"),
     "port": int(os.environ.get("SUWAR_DB_PORT", "3306")),
     "user": os.environ.get("SUWAR_DB_USER", "root"),
-    "password": os.environ.get("SUWAR_DB_PASSWORD", "MKS2294"),   # <-- put your MySQL password here
+    "password": os.environ.get("SUWAR_DB_PASSWORD", ""),   # <-- put your MySQL password here
     "database": os.environ.get("SUWAR_DB_NAME", "suwar"),
 }
 
