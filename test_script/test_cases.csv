@@ -1,0 +1,40 @@
+R1: Automated Gate Control,,,,,,,,,,
+TC ID,RID,Test Scenario,Description,Pre-condition,Action,Test Data,Expected Results,Actual Results,Post-Condition,Status
+TC01,R1,Automatic Gate Opening,Verify that the system automatically opens the gate at the scheduled irrigation time.,A valid irrigation schedule exists and the gate is operational.,Wait until the scheduled irrigation time.,Gate ID: 1 / Scheduled time: 06:00,Gate opens automatically at the scheduled time.,—,Gate status is updated to Open.,Not Run
+TC02,R1,Automatic Gate Closing,Verify that the system automatically closes the gate when the irrigation period ends.,Gate is open and an irrigation schedule is active.,Wait until the irrigation period ends.,Gate ID: 1 / Duration: 1 hour,Gate closes automatically when the scheduled period ends.,—,Gate status is updated to Closed.,Not Run
+,,,,,,,,,,
+R2: Real-Time Water Flow Monitoring,,,,,,,,,,
+TC ID,RID,Test Scenario,Description,Pre-condition,Action,Test Data,Expected Results,Actual Results,Post-Condition,Status
+TC03,R2,Normal Water Flow,Verify that the system collects and displays normal water flow readings.,Sensor is connected and operational.,Collect and view the sensor reading.,Sensor ID: 1 / Flow: 5.0 L/s,The correct flow reading is displayed.,—,Latest reading is available.,Not Run
+TC04,R2,Zero Water Flow,Verify that the system correctly displays a zero water flow reading.,Sensor is connected and operational.,Collect a sensor reading.,Sensor ID: 4 / Flow: 0.0 L/s,The system displays 0.0 L/s correctly.,—,Latest reading is updated.,Not Run
+,,,,,,,,,,
+R3: Leak Detection and Maintenance Alerts,,,,,,,,,,
+TC ID,RID,Test Scenario,Description,Pre-condition,Action,Test Data,Expected Results,Actual Results,Post-Condition,Status
+TC05,R3,Detect Water Leakage,Verify that the system detects water leakage when flow exceeds the defined threshold.,Sensor is operational.,Provide a flow reading above 8.0 L/s.,Sensor ID: 3 / Flow: 8.5 L/s,The system identifies a potential leak and generates an alert.,—,Leak alert is recorded.,Not Run
+TC06,R3,Flow at Detection Threshold,Verify that the system does not classify a reading of exactly 8.0 L/s as a leak.,Sensor is operational.,Provide a flow reading of exactly 8.0 L/s.,Sensor ID: 2 / Flow: 8.0 L/s,No leak alert is generated based on the greater-than-8.0 threshold.,—,Reading is recorded.,Not Run
+TC07,R3,Acknowledge Leak Alert,Verify that an authenticated user can acknowledge a leak alert.,A leak alert exists and the user is authenticated.,Select and acknowledge the alert.,Alert ID: Existing generated alert,Alert is marked as acknowledged.,—,Alert status is updated.,Not Run
+,,,,,,,,,,
+R4: Irrigation Scheduling and Time Slot Reservation,,,,,,,,,,
+TC ID,RID,Test Scenario,Description,Pre-condition,Action,Test Data,Expected Results,Actual Results,Post-Condition,Status
+TC08,R4,Reserve Available Slot,Verify that a farmer can reserve an available irrigation slot.,Farmer is logged in and the slot is available.,Select and reserve a slot.,User ID: 1 / Slot ID: 1,Reservation is successful.,—,Slot is assigned to the farmer.,Not Run
+TC09,R4,Reserve Unavailable Slot,Verify that a farmer cannot reserve an already reserved slot.,Slot is already reserved.,Attempt to reserve the same slot.,User ID: 1 / Slot ID: 1 (reserved),Reservation is rejected.,—,Existing reservation remains unchanged.,Not Run
+TC10,R4,Reserve Slot from Another Falaj,Verify that a farmer cannot reserve a slot belonging to another falaj.,Farmer is logged in.,Attempt to reserve a slot from another falaj.,User ID: 1 / Slot ID: 4,Reservation is rejected.,—,No reservation is created.,Not Run
+TC11,R4,Exceed Reservation Limit,Verify that a farmer cannot exceed the allowed reservation limit.,Farmer has reached the applicable reservation limit.,Attempt to reserve another slot.,User ID: 1 / Existing reservations: 2,Additional reservation is rejected.,—,Existing reservations remain unchanged.,Not Run
+TC12,R4,Unauthorized Reservation,Verify that a non-farmer cannot reserve an irrigation slot.,Administrator is logged in.,Attempt to reserve a slot.,User ID: 25 / Slot ID: 1,Reservation is rejected.,—,No reservation is created.,Not Run
+TC13,R4,Simultaneous Reservation,Verify that two farmers cannot reserve the same slot simultaneously.,Two users are logged in and the same slot is available.,Both users attempt to reserve the same slot simultaneously.,Users: 1 and 2 / Slot ID: 1,Only one reservation succeeds.,—,Slot is assigned to one farmer only.,Not Run
+TC14,R4,Cancel Own Reservation,Verify that a farmer can cancel their own reservation.,Farmer has an existing reservation.,Select and cancel the reservation.,User ID: 1 / Slot ID: 1,Reservation is cancelled successfully.,—,Slot becomes available.,Not Run
+TC15,R4,Cancel Another Farmer's Reservation,Verify that a farmer cannot cancel another farmer's reservation.,Another farmer has an existing reservation.,Attempt to cancel that reservation.,User ID: 1 / Reservation owner: User 2,Cancellation is rejected.,—,Original reservation remains active.,Not Run
+,,,,,,,,,,
+R5: Data Logging and Reporting,,,,,,,,,,
+TC ID,RID,Test Scenario,Description,Pre-condition,Action,Test Data,Expected Results,Actual Results,Post-Condition,Status
+TC16,R5,View Historical Readings,Verify that authorized users can view historical sensor readings.,Historical readings exist in the database.,Select the historical readings option.,Sensor ID: 1 / Historical date range,Previously recorded readings are displayed.,—,Historical readings remain stored.,Not Run
+TC17,R5,Store Sensor Readings,Verify that the system stores collected water flow readings in the database.,Sensor is connected and operational.,Collect a new sensor reading.,Sensor ID: 1 / Flow: 5.0 L/s,Reading is stored with its timestamp.,—,Reading is available in historical records.,Not Run
+TC18,R5,Generate Analytical Report,Verify that the system generates reports using historical water usage and system performance data.,Historical data exists in the database.,Select the report generation option.,Report type: Water Usage / Falaj: Al-Khatmeen,A report is generated using the stored data.,—,Generated report is available to authorized users.,Not Run
+,,,,,,,,,,
+R6: User Authentication and Access Control,,,,,,,,,,
+TC ID,RID,Test Scenario,Description,Pre-condition,Action,Test Data,Expected Results,Actual Results,Post-Condition,Status
+TC19,R6,Valid Login,Verify login with valid credentials.,User account exists.,Enter valid username and password.,nasser.harthi / ValidPass123!,User logs in successfully.,—,User session is active.,Not Run
+TC20,R6,Invalid Username,Verify login with an unregistered username.,Login page is open.,Enter an invalid username and password.,invalid.user / AnyPass123!,An error message is displayed.,—,User remains logged out.,Not Run
+TC21,R6,Invalid Password,Verify login with an incorrect password.,User account exists.,Enter a valid username and incorrect password.,nasser.harthi / WrongPass123!,Login is rejected.,—,User remains logged out.,Not Run
+TC22,R6,Both Invalid Credentials,Verify login with an invalid username and password.,Login page is open.,Enter invalid credentials.,invalid.user / WrongPass123!,Login is rejected.,—,User remains logged out.,Not Run
+TC23,R6,Account Lockout,Verify account lockout after five consecutive incorrect password attempts.,User account exists and is unlocked.,Enter an incorrect password five times.,Username: nasser.harthi / 5 incorrect attempts,Account is temporarily locked for 60 seconds.,—,Account remains locked during the lockout period.,Not Run
